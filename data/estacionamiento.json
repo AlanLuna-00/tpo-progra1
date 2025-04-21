@@ -1,0 +1,20 @@
+[
+  {
+    "fecha": "2025-04-07",
+    "hora": "14:30",
+    "patente": "ABC123",
+    "tipo_vehiculo": "Auto",
+    "cliente_dni": "12345678",
+    "salio": false,
+    "cochera_id": 1
+  },
+  {
+    "fecha": "2025-04-07",
+    "hora": "15:10",
+    "patente": "XYZ789",
+    "tipo_vehiculo": "Moto",
+    "cliente_dni": null,
+    "salio": true,
+    "cochera_id": 2
+  }
+]
