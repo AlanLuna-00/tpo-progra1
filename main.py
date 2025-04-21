@@ -18,43 +18,39 @@ def main():
 
     while ejecutando:
         mostrar_menu()
-        opcion = input("Seleccione una opcion: ")
 
-        if opcion == "1":
-            print("→ Mostrar todos los registros")
+        try:
+            opcion = int(input("Seleccione una opcion: "))
+        except ValueError:
+            print("Por favor, ingrese un número válido. ( 0 - 10 )")
+            continue
 
-        elif opcion == "2":
-            print("→ Filtrar por tipo de vehículo")
-
-        elif opcion == "3":
-            print("→ Buscar registros por patente")
-            mostrar_registro_por_patente()
-
-        elif opcion == "4":
-            print("→ Ingresos de clientes con DNI")
-
-        elif opcion == "5":
-            print("→ Ranking sobre tipos de vehículos")
-            mostrar_ranking_tipos_vehiculo()
-
-        elif opcion == "6":
-            print("→ Mostrar estadisticas")
-
-        elif opcion == "7":
-            print("→ Marcar salida de un vehiculo")
-
-        elif opcion == "8":
-            print("→ Registrar ingreso de un vehiculo")
-
-        elif opcion == "9":
-            print("→ Gestion de cocheras")
-
-        elif opcion == "0":
-            print("Saliendo del programa. ¡Hasta luego!")
-            ejecutando = False
-
-        else:
-            print("Opción invalida. Intente nuevamente.")
+        match opcion:
+            case 1:
+                print("→ Mostrar todos los registros")
+            case 2:
+                print("→ Filtrar por tipo de vehiculo")
+            case 3:
+                print("→ Buscar registros por patente")
+                mostrar_registro_por_patente()
+            case 4:
+                print("→ Ingresos de clientes con DNI")
+            case 5:
+                print("→ Ranking sobre tipos de vehiculos")
+                mostrar_ranking_tipos_vehiculo()
+            case 6:
+                print("→ Mostrar estadísticas")
+            case 7:
+                print("→ Marcar salida de un vehiculo")
+            case 8:
+                print("→ Registrar ingreso de un vehiculo")
+            case 9:
+                print("→ Gestion de cocheras")
+            case 9:
+                print("Saliendo del programa. ¡Hasta luego!")
+                ejecutando = False
+            case _:
+                print("Opción invalida. Intente nuevamente.")
 
 
 if __name__ == "__main__":
