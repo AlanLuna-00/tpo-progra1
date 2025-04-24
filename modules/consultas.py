@@ -12,12 +12,12 @@ def mostrar_registro_por_patente():
             encontrados.append(registro)
 
     if (len(encontrados) == 0):
+        print()
         print("No se encontraron registros para la patente ingresada.")
         return
-
-    for e in encontrados:
-        #TODO: Mejorar muestra de datos
-        print(e)
+    print()
+    for e in encontrados[0]:
+        print(f"{e.capitalize()}: {encontrados[0][e]}")
 
 def mostrar_ranking_tipos_vehiculo():
     registros = get_registros()
