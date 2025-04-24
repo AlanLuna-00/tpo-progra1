@@ -52,6 +52,6 @@ def mostrarTodosLosRegistros():
     
     while contador < len(encontrados):
         for j in encontrados[contador]:
-            print(f"{j.capitalize()}: {encontrados[0][j]}")
+            print(f"{j.capitalize()}: {encontrados[contador][j]}")
         contador = contador + 1
         print()
