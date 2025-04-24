@@ -39,3 +39,19 @@ def mostrar_ranking_tipos_vehiculo():
 
     for cantidad, tipo in ranking:
         print(f"{tipo}: {cantidad} ingresos")
+
+
+def mostrarTodosLosRegistros():
+    print()
+    db = get_registros()
+    encontrados = []
+    contador = 0
+
+    for i in db:
+        encontrados.append(i)
+    
+    while contador < len(encontrados):
+        for j in encontrados[contador]:
+            print(f"{j.capitalize()}: {encontrados[0][j]}")
+        contador = contador + 1
+        print()
