@@ -46,7 +46,7 @@ def main():
                 print("→ Registrar ingreso de un vehiculo")
             case 9:
                 print("→ Gestion de cocheras")
-            case 9:
+            case 0:
                 print("Saliendo del programa. ¡Hasta luego!")
                 ejecutando = False
             case _:
