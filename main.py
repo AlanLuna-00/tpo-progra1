@@ -1,4 +1,4 @@
-from modules.consultas import mostrar_registro_por_patente, mostrar_ranking_tipos_vehiculo, mostrarTodosLosRegistros
+from modules.consultas import mostrar_registro_por_patente, mostrar_ranking_tipos_vehiculo, mostrarTodosLosRegistros, filtrar_por_tipo_vehiculo
 
 def mostrar_menu():
     print("\n====== ESTACIONAMIENTO - CONSULTAS ======")
@@ -31,6 +31,7 @@ def main():
                 mostrarTodosLosRegistros()
             case 2:
                 print("→ Filtrar por tipo de vehiculo")
+                filtrar_por_tipo_vehiculo()
             case 3:
                 print("→ Buscar registros por patente")
                 mostrar_registro_por_patente()

@@ -55,3 +55,26 @@ def mostrarTodosLosRegistros():
             print(f"{j.capitalize()}: {encontrados[contador][j]}")
         contador = contador + 1
         print()
+
+
+def filtrar_por_tipo_vehiculo():
+    registros = get_registros()
+    tipos_disponibles = set(registro["tipo_vehiculo"] for registro in registros)
+    
+    print("\nTipos de vehículos disponibles:", ", ".join(tipos_disponibles))
+    tipo_buscado = input("Ingrese el tipo de vehículo a filtrar: ").strip().lower()
+    
+    encontrados = [
+        registro for registro in registros 
+        if registro["tipo_vehiculo"].lower() == tipo_buscado
+    ]
+    
+    if not encontrados:
+        print(f"No hay registros para el tipo '{tipo_buscado}'.")
+        return
+    
+    print(f"\n→ Registros de tipo '{tipo_buscado}':")
+    for registro in encontrados:
+        for campo, valor in registro.items():
+            print(f"{campo.capitalize()}: {valor}")
+        print("------")
