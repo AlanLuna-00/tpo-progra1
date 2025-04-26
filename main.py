@@ -1,5 +1,5 @@
 from modules.consultas import mostrar_registro_por_patente, mostrar_ranking_tipos_vehiculo, mostrarTodosLosRegistros, filtrar_por_tipo_vehiculo
-from modules.registros import agregrarEstacionado
+from modules.registros import agregrarEstacionado ,egresarVehiculo
 def mostrar_menu():
     print("\n====== ESTACIONAMIENTO - CONSULTAS ======")
     print("1. Ver todos los registros")
@@ -45,6 +45,7 @@ def main():
                 print("→ Mostrar estadísticas")
             case 7:
                 print("→ Marcar salida de un vehiculo")
+                egresarVehiculo()
             case 8:
                 print("→ Registrar ingreso de un vehiculo")
                 agregrarEstacionado()
