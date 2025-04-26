@@ -8,7 +8,7 @@ def mostrar_registro_por_patente():
     encontrados = []
 
     for registro in registros:
-        if registro.get('patente', None).lower() == patente.lower():
+        if registro['patente'].lower() == patente.lower():
             encontrados.append(registro)
 
     if (len(encontrados) == 0):
@@ -78,3 +78,23 @@ def filtrar_por_tipo_vehiculo():
         for campo, valor in registro.items():
             print(f"{campo.capitalize()}: {valor}")
         print("------")
+
+
+def mostrarPorDni():
+    registros = get_registros()
+    encontrados = []
+    dniBuscado = (input("Ingresa el dni para filtrar: "))
+
+    for registro in registros:
+        if registro['cliente_dni'] == dniBuscado:
+            encontrados.append(registro)
+
+    for j in range(len(encontrados)):
+        print()
+        for k in encontrados[j]:
+            print(f"{k.capitalize()}: {encontrados[0][k]}")
+
+
+
+
+

@@ -76,7 +76,6 @@ def egresarVehiculo():
                         "salio": True
                         }
                         add_registros(nuevo_registro)
-                        print("Exitoso.")
                     else:
                         print("El dni no coincide.")
                         return
