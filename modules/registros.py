@@ -1,7 +1,11 @@
-from data.data import estacionamiento,registros, estacionados
 import random
+from utils.file_manager_mock import get_estacionados, get_estacionamiento, get_registros, add_estacionados, add_estacionamiento, add_registros
 
 def agregrarEstacionado():
+
+    estacionados = get_estacionados()
+    estacionamiento = get_estacionamiento()
+    registros = get_registros()
 
     fecha = int(input("Ingrese fecha: "))
     hora = int(input("Ingrese hora: "))
@@ -14,9 +18,8 @@ def agregrarEstacionado():
         print("Ya ingresado.")
     else:
         while patente not in estacionados:
-            estacionados.append(patente)
-
-            registros. append({
+            add_estacionados(patente)
+            add_registros({
                 "fecha": fecha,
                 "hora": hora,
                 "patente": patente,
@@ -24,11 +27,10 @@ def agregrarEstacionado():
                 "cliente_dni": dni,
                 "salio": salio,
             })
-
             for i in range(len(estacionamiento)):
                 for j in range(len(estacionamiento[i])):
                     if estacionamiento[i][j] == 'Vacio':
-                        estacionamiento[i][j] = patente            
+                        add_estacionamiento(i,j,patente)
                         print(f"Vehículo {patente} ingresado en la cochera ({i},{j})")
                         return
         print("Estacionamiento lleno.")
