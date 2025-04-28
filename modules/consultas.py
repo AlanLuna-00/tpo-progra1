@@ -1,4 +1,4 @@
-from utils.file_manager_mock import get_registros
+from utils.file_manager_mock import get_registros, get_estacionamiento
 from modules.ordenamientos import selection_sort
 
 
@@ -21,7 +21,7 @@ def mostrar_registro_por_patente():
         if registro['patente'].lower() == patente.lower():
             encontrados.append(registro)
 
-    if (len(encontrados) == 0):
+    if len(encontrados) == 0:
         print()
         print("No se encontraron registros para la patente ingresada.")
         return
@@ -56,6 +56,10 @@ def mostrar_ranking_tipos_vehiculo():
     ranking = []
     for tipo, cantidad in conteo_por_tipo.items():
         ranking.append((cantidad, tipo))
+
+    if len(ranking) == 0:
+        print("No hay registros disponibles.")
+        return
 
     ranking = selection_sort(ranking, ascendente=False)
 
@@ -108,7 +112,10 @@ def filtrar_por_tipo_vehiculo():
 
     registros = get_registros()
     tipos_disponibles = set(registro["tipo_vehiculo"] for registro in registros)
-    
+    if not tipos_disponibles:
+        print("No hay vehiculos cargados aun.")
+        return
+
     print("\nTipos de vehículos disponibles:", ", ".join(tipos_disponibles))
     tipo_buscado = input("Ingrese el tipo de vehículo a filtrar: ").strip().lower()
     
@@ -145,7 +152,30 @@ def mostrarPorDni():
         if registro['cliente_dni'] == dniBuscado:
             encontrados.append(registro)
 
+    if len(encontrados) == 0:
+        print()
+        print("No se encontraron registros para el DNI ingresado.")
+        return
+
     for j in range(len(encontrados)):
         print()
         for k in encontrados[j]:
             print(f"{k.capitalize()}: {encontrados[0][k]}")
+
+def ver_estacionamiento():
+    estacionamiento = get_estacionamiento()
+    print("\nDisposición actual del estacionamiento:")
+    for i, fila in enumerate(estacionamiento):
+        for j, lugar in enumerate(fila):
+            print(f"[{lugar}]", end=" ")
+        print()
+
+def mostrar_estadisticas():
+    estacionamiento = get_estacionamiento()
+
+    total_vehiculos = sum(1 for fila in estacionamiento for lugar in fila if lugar != "Vacio")
+    total_lugares = len(estacionamiento) * len(estacionamiento[0])
+
+    porcentaje_ocupacion = (total_vehiculos / total_lugares) * 100 if total_lugares > 0 else 0
+    print(f"\nTotal de vehículos estacionados: {total_vehiculos}")
+    print(f"Porcentaje de ocupación: {porcentaje_ocupacion:.2f}%")

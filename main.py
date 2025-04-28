@@ -1,4 +1,5 @@
-from modules.consultas import mostrar_registro_por_patente, mostrar_ranking_tipos_vehiculo, mostrarTodosLosRegistros, filtrar_por_tipo_vehiculo, mostrarPorDni
+from modules.consultas import mostrar_registro_por_patente, mostrar_ranking_tipos_vehiculo, mostrarTodosLosRegistros, \
+    filtrar_por_tipo_vehiculo, mostrarPorDni, ver_estacionamiento, mostrar_estadisticas
 from modules.registros import agregrarEstacionado ,egresarVehiculo
 def mostrar_menu():
     """
@@ -10,11 +11,11 @@ def mostrar_menu():
     print("2. Filtrar por tipo de vehículo")
     print("3. Buscar por patente")
     print("4. Ver ingresos de clientes (con DNI)")
-    print("5. Ver ingresos por fecha")
-    print("6. Mostrar estadísticas")
+    print("5. Ver ranking de tipos de vehículos")
+    print("6. Mostrar estadísticas del estacionamiento")
     print("7. Marcar salida de un vehículo")
     print("8. Registrar ingreso de un vehículo")
-    print("9. Gestión de cocheras")
+    print("9. Vista del estacionamiento")
     print("0. Salir")
 
 
@@ -52,7 +53,8 @@ def main():
                 print("→ Ranking sobre tipos de vehiculos")
                 mostrar_ranking_tipos_vehiculo()
             case 6:
-                print("→ Mostrar estadísticas")
+                print("→ Estadisticas del estacionamiento")
+                mostrar_estadisticas()
             case 7:
                 print("→ Marcar salida de un vehiculo")
                 egresarVehiculo()
@@ -60,7 +62,8 @@ def main():
                 print("→ Registrar ingreso de un vehiculo")
                 agregrarEstacionado()
             case 9:
-                print("→ Gestion de cocheras")
+                print("→ Vista del estacionamiento")
+                ver_estacionamiento()
             case 0:
                 print("Saliendo del programa. ¡Hasta luego!")
                 ejecutando = False
