@@ -4,11 +4,23 @@ from datetime import datetime
 from data.data import estacionados
 
 def agregrarEstacionado():
+    """
+    Registra el ingreso de un vehículo en el estacionamiento.
+
+        1) Obtiene la estructura de estacionamiento y los registros existentes.
+        2) Solicita la patente del vehículo y verifica si ya está registrado.
+        3) Solicita más datos al usuario, como tipo de vehículo y DNI del cliente.
+        4) Guarda la fecha y hora del ingreso usando datetime.now().
+        5) Busca una cochera disponible y registra el vehículo en la primera vacía que encuentre.
+        6) Actualiza los datos en file_manager_mock.py
+        7) Muestra la disposición del estacionamiento tras la asignación.
+
+    Si no hay espacios vacíos, informa que el estacionamiento está lleno.
+    """
 
     estacionamiento = get_estacionamiento()
     registros = get_registros()
 
-    
     patente = (input("Ingrese patente: ")).upper()
     if patente in estacionados:
         print("Ya ingresado.")
@@ -47,10 +59,20 @@ def agregrarEstacionado():
             print(lugar, end=" ")
         print()
 
-    
-
 
 def egresarVehiculo():
+    """
+    Registra la salida de un vehículo del estacionamiento.
+
+        1) Solicita la patente del vehículo a egresar.
+        2) Verifica si el vehículo está en el estacionamiento.
+        3) Solicita el DNI del cliente y comprueba que coincida con el registro.
+        4) Si es válido, actualiza el registro marcando el vehículo como egresado (salio = True).
+        5) Libera la cochera cambiando su estado a 'Vacio'.
+        6) Muestra la disposición actualizada del estacionamiento.
+
+    Si el DNI no coincide, el egreso no se permite.
+    """
 
     estacionamiento = get_estacionamiento()
     registros = get_registros()
@@ -79,7 +101,7 @@ def egresarVehiculo():
                     else:
                         print("El dni no coincide.")
                         return
-                    
+
             for i in range(len(estacionamiento)):
                 for j in range(len(estacionamiento[i])):
                     if estacionamiento[i][j] == patenteEgresada:
@@ -92,9 +114,8 @@ def egresarVehiculo():
                                 print(lugar, end=" ")
                             print()
                         return
-    
+
     for fila in estacionamiento:
         for lugar in fila:
             print(lugar, end=" ")
         print()
-
