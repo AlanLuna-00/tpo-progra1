@@ -1,6 +1,10 @@
 from modules.consultas import mostrar_registro_por_patente, mostrar_ranking_tipos_vehiculo, mostrarTodosLosRegistros, filtrar_por_tipo_vehiculo, mostrarPorDni
 from modules.registros import agregrarEstacionado ,egresarVehiculo
 def mostrar_menu():
+    """
+    Muestra un menú interactivo con opciones para acceder a distintas funciones de la aplicación.
+    """
+
     print("\n====== ESTACIONAMIENTO - CONSULTAS ======")
     print("1. Ver todos los registros")
     print("2. Filtrar por tipo de vehículo")
@@ -15,6 +19,11 @@ def mostrar_menu():
 
 
 def main():
+    """
+    Esta es la funcion principal que contiene el ciclo principal de mostrar_menu() para la seleccion de las opcione
+    y tambien las llamadas a sus respectivas funcionalidades por caso.
+    """
+
     ejecutando = True
 
     while ejecutando:
