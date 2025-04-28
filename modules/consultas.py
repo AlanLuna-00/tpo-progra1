@@ -52,7 +52,18 @@ def mostrarTodosLosRegistros():
     
     while contador < len(encontrados):
         for j in encontrados[contador]:
-            print(f"{j.capitalize()}: {encontrados[contador][j]}")
+            if j.lower() == "patente":
+                patente = encontrados[contador][j]
+                if len(patente) == 6:
+                    patente_formateada = patente[:3] + "-" + patente[3:]
+                    print(f"{j.capitalize()}: {patente_formateada}")
+                elif len(patente) == 7:
+                    patente_formateada = patente[:2] + "-" + patente[2:5] + "-" + patente[5:]
+                    print(f"{j.capitalize()}: {patente_formateada}")
+                else:
+                    print(f"{j.capitalize()}: {patente}")
+            else:
+                print(f"{j.capitalize()}: {encontrados[contador][j]}")
         contador = contador + 1
         print()
 
