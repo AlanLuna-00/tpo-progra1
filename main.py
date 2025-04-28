@@ -23,7 +23,7 @@ def main():
         try:
             opcion = int(input("Seleccione una opcion: "))
         except ValueError:
-            print("Por favor, ingrese un número válido. ( 0 - 10 )")
+            print("Por favor, ingrese un número válido. ( 0 - 9 )")
             continue
 
         match opcion:
@@ -59,5 +59,5 @@ def main():
                 print("Opción invalida. Intente nuevamente.")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":          
     main()
