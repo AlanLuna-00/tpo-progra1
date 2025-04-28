@@ -26,8 +26,10 @@ def mostrar_registro_por_patente():
         print("No se encontraron registros para la patente ingresada.")
         return
     print()
-    for e in encontrados[0]:
-        print(f"{e.capitalize()}: {encontrados[0][e]}")
+    for registro in encontrados:
+        for campo, valor in registro.items():
+            print(f"{campo.capitalize()}: {valor}")
+        print("------")
 
 
 def mostrar_ranking_tipos_vehiculo():
