@@ -17,18 +17,39 @@ def agregrarEstacionado():
 
     Si no hay espacios vacíos, informa que el estacionamiento está lleno.
     """
+    try:
+        estacionamiento = get_estacionamiento()
+    except Exception as e:
+        print(f"Error al obtener los datos del estacionamiento: {e}")
 
-    estacionamiento = get_estacionamiento()
-    registros = get_registros()
+    try:
+        registros = get_registros()
+    except Exception as e:
+        print(f"Error al obtener los registros: {e}")
 
-    patente = (input("Ingrese patente: ")).upper()
+
+    patente = input("Ingrese la patente: ")
+    while not patente:
+        print("La patente no puede estar vacía.")
+        patente = input("Ingrese la patente: ")
+
+    
     if patente in estacionados:
         print("Ya ingresado.")
     else:
         fecha = datetime.now().strftime("%d/%m/%Y")
         hora = datetime.now().strftime("%H:%M")
         tipo = (input("Ingrese tipo: ")).capitalize()
+
+        while not tipo:
+            print("El tipo de vehiculo no puede estar vacío.")
+            tipo = input("Ingrese el tipo de vehiculo: ")
         dni = (input("Ingrese dni: "))
+
+        while not dni:
+            print("El DNI no puede estar vacío.")
+            dni = input("Ingrese el DNI: ")
+
         salio = False
         while patente not in estacionados:
             add_estacionados(patente)
@@ -74,16 +95,32 @@ def egresarVehiculo():
     Si el DNI no coincide, el egreso no se permite.
     """
 
-    estacionamiento = get_estacionamiento()
-    registros = get_registros()
+    try:
+        estacionamiento = get_estacionamiento()
+    except Exception as e:
+        print(f"Error al obtener los datos del estacionamiento: {e}")
+
+    try:
+        registros = get_registros()
+    except Exception as e:
+        print(f"Error al obtener los registros: {e}")
 
     patenteEgresada = input("Ingrese la patente del vehiculo a egresar: ").upper()
+    while not patenteEgresada:
+        print("Ingrese una patente valida: ")
+        patenteEgresada = input("Ingrese la patente del vehiculo a egresar: ").upper()
+    
     if patenteEgresada not in estacionados:
         print("El vehiculo no esta estacionado.")
     else:
         fecha = datetime.now().strftime("%d/%m/%Y")
         hora = datetime.now().strftime("%H:%M")
         dni = input("Ingrese el dni: ")
+
+        while not dni:
+            print("Ingrese un numero de DNI valido.")
+            dni = input("Ingrese el dni: ")
+
         while patenteEgresada in estacionados:
             estacionados.remove(patenteEgresada)
             for registro in registros:
