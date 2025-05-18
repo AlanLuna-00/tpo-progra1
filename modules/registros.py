@@ -17,16 +17,9 @@ def agregrarEstacionado():
 
     Si no hay espacios vacíos, informa que el estacionamiento está lleno.
     """
-    try:
-        estacionamiento = get_estacionamiento()
-    except Exception as e:
-        print(f"Error al obtener los datos del estacionamiento: {e}")
 
-    try:
-        registros = get_registros()
-    except Exception as e:
-        print(f"Error al obtener los registros: {e}")
-
+    estacionamiento = get_estacionamiento()
+    registros = get_registros()
 
     patente = input("Ingrese la patente: ")
     while not patente:
@@ -95,15 +88,8 @@ def egresarVehiculo():
     Si el DNI no coincide, el egreso no se permite.
     """
 
-    try:
-        estacionamiento = get_estacionamiento()
-    except Exception as e:
-        print(f"Error al obtener los datos del estacionamiento: {e}")
-
-    try:
-        registros = get_registros()
-    except Exception as e:
-        print(f"Error al obtener los registros: {e}")
+    estacionamiento = get_estacionamiento()
+    registros = get_registros()
 
     patenteEgresada = input("Ingrese la patente del vehiculo a egresar: ").upper()
     while not patenteEgresada:

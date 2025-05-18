@@ -14,11 +14,7 @@ def mostrar_registro_por_patente():
     
     patente = input("Ingrese la patente del vehiculo a buscar: ")
 
-    try:
-        registros = get_registros()
-    except Exception as e:
-        print(f"Error al obtener los registros: {e}")
-        return
+    registros = get_registros()
     encontrados = []
 
     for registro in registros:
@@ -46,11 +42,8 @@ def mostrar_ranking_tipos_vehiculo():
         4) Muestra el ranking de tipos de vehículos según su cantidad de ingresos.
     """
 
-    try:
-        registros = get_registros()
-    except Exception as e:
-        print(f"Error al obtener los registros: {e}")
-        return
+
+    registros = get_registros()
 
     conteo_por_tipo = {}
 
@@ -84,11 +77,7 @@ def mostrarTodosLosRegistros():
     """
 
     print()
-    try:
-        db = get_registros()
-    except Exception as e:
-        print(f"Error al obtener los registros: {e}")
-        return
+    db = get_registros()
     encontrados = []
     contador = 0
 
@@ -121,12 +110,7 @@ def filtrar_por_tipo_vehiculo():
         2) Solicita al usuario que ingrese el tipo de vehículo que quiere filtrar.
         3) Busca coincidencias y las imprime.
     """
-
-    try:
-        registros = get_registros()
-    except Exception as e:
-        print(f"Error al obtener los registros: {e}")
-        return
+    registros = get_registros()
     
     tipos_disponibles = set(registro["tipo_vehiculo"] for registro in registros)
     if not tipos_disponibles:
@@ -160,10 +144,8 @@ def mostrarPorDni():
         2) Solicita al usuario un DNI para filtrar.
         3) Busca coincidencias y muestra los datos del cliente.
     """
-    try:
-        registros = get_registros()
-    except Exception as e:
-        print(f"Error al obtener los registros: {e}")
+    registros = get_registros()
+
     encontrados = []
     dniBuscado = (input("Ingresa el dni para filtrar: "))
 
@@ -183,11 +165,8 @@ def mostrarPorDni():
 
 def ver_estacionamiento():
 
-    try:
-        estacionamiento = get_estacionamiento()
-    except Exception as e:
-        print(f"Error al obtener los datos del estacionamiento: {e}")
-        return
+
+    estacionamiento = get_estacionamiento()
     
     print("\nDisposición actual del estacionamiento:")
     for i, fila in enumerate(estacionamiento):
@@ -196,10 +175,7 @@ def ver_estacionamiento():
         print()
 
 def mostrar_estadisticas():
-    try:
-        estacionamiento = get_estacionamiento()
-    except Exception as e:
-        print(f"Error al obtener los registros: {e}")
+    estacionamiento = get_estacionamiento()
 
     total_vehiculos = sum(1 for fila in estacionamiento for lugar in fila if lugar != "Vacio")
     total_lugares = len(estacionamiento) * len(estacionamiento[0])

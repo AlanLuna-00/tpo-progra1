@@ -6,7 +6,11 @@ def get_registros():
     :return: Devuelve una copia de registros, evitando que los datos originales sean modificados directamente.
     """
 
-    return db.registros.copy()
+    try:
+        return db.registros.copy()
+    except Exception as e:
+        print(f"Error al obtener los registros: {e}")
+        return []
 
 
 def get_cocheras():
@@ -14,7 +18,11 @@ def get_cocheras():
     :return: Obtiene la lista de cocheras disponibles, con información sobre su estado (ocupada o vacía).
     """
 
-    return db.cocheras.copy()
+    try:
+        return db.cocheras.copy()
+    except Exception as e:
+        print(f"Error al obtener las cocheras: {e}")
+        return []
 
 
 def set_registros(nuevos_registros):
@@ -46,7 +54,11 @@ def get_estacionamiento():
     :return: Devuelve la matriz del estacionamiento, reflejando qué espacios están ocupados y qué lugares siguen libres.
     """
 
-    return db.estacionamiento.copy()
+    try:
+        return db.estacionamiento.copy()
+    except Exception as e:
+        print(f"Error al obtener el estacionamiento: {e}")
+        return []
 
 
 def get_estacionados():
@@ -54,7 +66,11 @@ def get_estacionados():
     :return: Devuelve la lista de patentes de vehículos actualmente estacionados.
     """
 
-    return db.estacionados.copy()
+    try:
+        return db.estacionados.copy()
+    except Exception as e:
+        print(f"Error al obtener los estacionados: {e}")
+        return []
 
 
 def add_estacionamiento(fila, columna, patente):
@@ -67,7 +83,12 @@ def add_estacionamiento(fila, columna, patente):
     :return: La patente del vehículo que se le envió, en el lugar en donde se asigna, que antes estaba vacio.
     """
 
-    db.estacionamiento[fila][columna] = patente
+    try:
+        db.estacionamiento[fila][columna] = patente
+    except IndexError:
+        print(f"Error: La cochera ({fila}, {columna}) no existe.")
+    except Exception as e:
+        print(f"Error al agregar el vehículo a la cochera: {e}")
 
 
 def add_estacionados(patente):
@@ -78,7 +99,10 @@ def add_estacionados(patente):
     :return: Aniade la patente del vehículo a la lista de de los estacionados
     """
 
-    db.estacionados.append(patente)
+    try:
+        db.estacionados.append(patente)
+    except Exception as e:
+        print(f"Error al agregar la patente a los estacionados: {e}")
 
 
 def add_registros(nuevos_registros):
@@ -89,4 +113,7 @@ def add_registros(nuevos_registros):
     :return: Crea un nuevo diccionario con ciertos datos del vehículo que brindan informacion del mismo
     """
 
-    db.registros.append(nuevos_registros)
+    try:
+        db.registros.append(nuevos_registros)
+    except Exception as e:
+        print(f"Error al agregar el registro: {e}")
