@@ -1,6 +1,6 @@
 from utils.file_manager_mock import get_registros, get_estacionamiento
 from modules.ordenamientos import selection_sort
-from utils.utils import get_user_input
+from utils.utils import get_user_input, formatear_patente
 
 
 def mostrar_registro_por_patente():
@@ -13,7 +13,7 @@ def mostrar_registro_por_patente():
         4) Si hay registros, imprime los datos, sino, avisa que no hay información disponible.
     """
     
-    patente = get_user_input("Ingrese la patente del vehiculo a buscar: ")
+    patente = get_user_input("Ingrese la patente del vehiculo a buscar: ", str.upper)
 
     registros = get_registros()
     encontrados = []
@@ -76,30 +76,13 @@ def mostrarTodosLosRegistros():
         1) Carga todos los registros desde la base de datos.
         2) Recorre los registros y los imprime en pantalla.
     """
-
     print()
     db = get_registros()
-    encontrados = []
-    contador = 0
+    encontrados = list(db)
 
-    for i in db:
-        encontrados.append(i)
-    
-    while contador < len(encontrados):
-        for j in encontrados[contador]:
-            if j.lower() == "patente":
-                patente = encontrados[contador][j]
-                if len(patente) == 6:
-                    patente_formateada = patente[:3] + "-" + patente[3:]
-                    print(f"{j.capitalize()}: {patente_formateada}")
-                elif len(patente) == 7:
-                    patente_formateada = patente[:2] + "-" + patente[2:5] + "-" + patente[5:]
-                    print(f"{j.capitalize()}: {patente_formateada}")
-                else:
-                    print(f"{j.capitalize()}: {patente}")
-            else:
-                print(f"{j.capitalize()}: {encontrados[contador][j]}")
-        contador = contador + 1
+    for registro in encontrados:
+        for campo in registro:
+            print(f"{campo.capitalize()}: {registro[campo]}")
         print()
 
 
