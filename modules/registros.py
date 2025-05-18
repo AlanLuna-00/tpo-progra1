@@ -2,6 +2,8 @@ import random
 from utils.file_manager_mock import get_estacionamiento, get_registros, add_estacionados, add_estacionamiento, add_registros
 from datetime import datetime
 from data.data import estacionados
+from utils.utils import get_user_input
+
 
 def agregrarEstacionado():
     """
@@ -21,27 +23,15 @@ def agregrarEstacionado():
     estacionamiento = get_estacionamiento()
     registros = get_registros()
 
-    patente = input("Ingrese la patente: ")
-    while not patente:
-        print("La patente no puede estar vacía.")
-        patente = input("Ingrese la patente: ")
-
+    patente = get_user_input("Ingrese la patente: ")
     
     if patente in estacionados:
         print("Ya ingresado.")
     else:
         fecha = datetime.now().strftime("%d/%m/%Y")
         hora = datetime.now().strftime("%H:%M")
-        tipo = (input("Ingrese tipo: ")).capitalize()
-
-        while not tipo:
-            print("El tipo de vehiculo no puede estar vacío.")
-            tipo = input("Ingrese el tipo de vehiculo: ")
-        dni = (input("Ingrese dni: "))
-
-        while not dni:
-            print("El DNI no puede estar vacío.")
-            dni = input("Ingrese el DNI: ")
+        tipo = get_user_input("Ingrese tipo: ").capitalize()
+        dni = get_user_input("Ingrese dni: ")
 
         salio = False
         while patente not in estacionados:
@@ -91,21 +81,14 @@ def egresarVehiculo():
     estacionamiento = get_estacionamiento()
     registros = get_registros()
 
-    patenteEgresada = input("Ingrese la patente del vehiculo a egresar: ").upper()
-    while not patenteEgresada:
-        print("Ingrese una patente valida: ")
-        patenteEgresada = input("Ingrese la patente del vehiculo a egresar: ").upper()
+    patenteEgresada = get_user_input("Ingrese la patente del vehiculo a egresar: ").upper()
     
     if patenteEgresada not in estacionados:
         print("El vehiculo no esta estacionado.")
     else:
         fecha = datetime.now().strftime("%d/%m/%Y")
         hora = datetime.now().strftime("%H:%M")
-        dni = input("Ingrese el dni: ")
-
-        while not dni:
-            print("Ingrese un numero de DNI valido.")
-            dni = input("Ingrese el dni: ")
+        dni = get_user_input("Ingrese el dni: ")
 
         while patenteEgresada in estacionados:
             estacionados.remove(patenteEgresada)

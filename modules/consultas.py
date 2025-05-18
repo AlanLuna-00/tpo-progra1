@@ -1,5 +1,6 @@
 from utils.file_manager_mock import get_registros, get_estacionamiento
 from modules.ordenamientos import selection_sort
+from utils.utils import get_user_input
 
 
 def mostrar_registro_por_patente():
@@ -12,7 +13,7 @@ def mostrar_registro_por_patente():
         4) Si hay registros, imprime los datos, sino, avisa que no hay información disponible.
     """
     
-    patente = input("Ingrese la patente del vehiculo a buscar: ")
+    patente = get_user_input("Ingrese la patente del vehiculo a buscar: ")
 
     registros = get_registros()
     encontrados = []
@@ -147,7 +148,7 @@ def mostrarPorDni():
     registros = get_registros()
 
     encontrados = []
-    dniBuscado = (input("Ingresa el dni para filtrar: "))
+    dniBuscado = get_user_input("Ingresa el dni para filtrar: ")
 
     for registro in registros:
         if registro['cliente_dni'] == dniBuscado:
