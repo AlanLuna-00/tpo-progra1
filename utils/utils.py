@@ -1,11 +1,22 @@
 import re
 
-def get_user_input(prompt, transform=None):
+def get_user_input(prompt, transform=None, valid_options=None):
+
     while True:
         user_input = input(prompt).strip()
-        if user_input:
-            return transform(user_input) if transform else user_input
-        print("La entrada no puede estar vacía. Inténtelo nuevamente.")
+        if not user_input:
+            print("La entrada no puede estar vacía. Inténtelo nuevamente.")
+            continue
+
+        if transform:
+            user_input = transform(user_input)
+
+        if valid_options and user_input not in valid_options:
+            print(f"Opción no válida. Las opciones válidas son: {', '.join(valid_options)}")
+            continue
+
+        return user_input
+
 
 def formatear_patente(patente):
     patente = patente.strip().upper()

@@ -102,11 +102,11 @@ def filtrar_por_tipo_vehiculo():
         return
 
     print("\nTipos de vehículos disponibles:", ", ".join(tipos_disponibles))
-    tipo_buscado = input("Ingrese el tipo de vehículo a filtrar: ").strip().lower()
+    tipo_buscado = get_user_input("Ingrese el tipo de vehículo a filtrar: ", str.upper, tipos_disponibles)
     
     encontrados = [
         registro for registro in registros 
-        if registro["tipo_vehiculo"].lower() == tipo_buscado
+        if registro["tipo_vehiculo"] == tipo_buscado
     ]
     
     if not encontrados:
