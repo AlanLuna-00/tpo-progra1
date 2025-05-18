@@ -2,6 +2,8 @@ import random
 from utils.file_manager_mock import get_estacionamiento, get_registros, add_estacionados, add_estacionamiento, add_registros
 from datetime import datetime
 from data.data import estacionados
+from utils.utils import get_user_input, formatear_patente
+
 
 def agregrarEstacionado():
     """
@@ -21,14 +23,16 @@ def agregrarEstacionado():
     estacionamiento = get_estacionamiento()
     registros = get_registros()
 
-    patente = (input("Ingrese patente: ")).upper()
+    patente = formatear_patente(get_user_input("Ingrese la patente: ", str.upper))
+    
     if patente in estacionados:
         print("Ya ingresado.")
     else:
         fecha = datetime.now().strftime("%d/%m/%Y")
         hora = datetime.now().strftime("%H:%M")
-        tipo = (input("Ingrese tipo: ")).capitalize()
-        dni = (input("Ingrese dni: "))
+        tipo = get_user_input("Ingrese tipo: ", str.upper)
+        dni = get_user_input("Ingrese dni: ")
+
         salio = False
         while patente not in estacionados:
             add_estacionados(patente)
@@ -77,13 +81,15 @@ def egresarVehiculo():
     estacionamiento = get_estacionamiento()
     registros = get_registros()
 
-    patenteEgresada = input("Ingrese la patente del vehiculo a egresar: ").upper()
+    patenteEgresada = formatear_patente(get_user_input("Ingrese la patente del vehiculo a egresar: ", str.upper))
+    
     if patenteEgresada not in estacionados:
         print("El vehiculo no esta estacionado.")
     else:
         fecha = datetime.now().strftime("%d/%m/%Y")
         hora = datetime.now().strftime("%H:%M")
-        dni = input("Ingrese el dni: ")
+        dni = get_user_input("Ingrese el dni: ")
+
         while patenteEgresada in estacionados:
             estacionados.remove(patenteEgresada)
             for registro in registros:
