@@ -12,43 +12,6 @@ def get_registros():
         print(f"Error al obtener los registros: {e}")
         return []
 
-
-def get_cocheras():
-    """
-    :return: Obtiene la lista de cocheras disponibles, con información sobre su estado (ocupada o vacía).
-    """
-
-    try:
-        return db.cocheras.copy()
-    except Exception as e:
-        print(f"Error al obtener las cocheras: {e}")
-        return []
-
-
-def set_registros(nuevos_registros):
-    """
-    Elimina los registros existentes y los reemplaza con la nueva lista proporcionada.
-
-    :param nuevos_registros: Este parametro representa una nueva lista de registros cargados.
-    :return: Retorna la nueva lista de registros que se le proporciono, reemplazando la existente.
-    """
-
-    db.registros.clear()
-    db.registros.extend(nuevos_registros)
-
-
-def set_cocheras(nuevas_cocheras):
-    """
-    Vacía la lista de cocheras y carga una nueva configuración.
-
-    :param nuevas_cocheras: Se le envía una nueva configuracion de la lista de las cocheras.
-    :return: Retorna la nueva configuracion de las cocheras, reemplazando la anterior.
-    """
-
-    db.cocheras.clear()
-    db.cocheras.extend(nuevas_cocheras)
-
-
 def get_estacionamiento():
     """
     :return: Devuelve la matriz del estacionamiento, reflejando qué espacios están ocupados y qué lugares siguen libres.
@@ -117,3 +80,11 @@ def add_registros(nuevos_registros):
         db.registros.append(nuevos_registros)
     except Exception as e:
         print(f"Error al agregar el registro: {e}")
+
+def delete_estacionado(patente):
+    try:
+        db.estacionados.remove(patente)
+    except ValueError:
+        print(f"Error: La patente {patente} no está en la lista de estacionados.")
+    except Exception as e:
+        print(f"Error al eliminar la patente de los estacionados: {e}")

@@ -1,11 +1,11 @@
 import random
-from utils.file_manager_mock import get_estacionamiento, get_registros, add_estacionados, add_estacionamiento, add_registros
+from utils.file_manager_mock import get_estacionamiento, get_registros,get_estacionados, add_estacionados, add_estacionamiento, add_registros, delete_estacionado
 from datetime import datetime
-from data.data import estacionados
-from utils.utils import get_user_input, formatear_patente
+from utils.utils import get_user_input, formatear_patente, mostrar_estacionamiento, buscar_cochera_por_patente, \
+    buscar_cochera_vacia, obtener_registro_activo_por_patente, pedir_patente_formateada
 
 
-def agregrarEstacionado():
+def agregar_estacionado():
     """
     Registra el ingreso de un vehículo en el estacionamiento.
 
@@ -21,50 +21,42 @@ def agregrarEstacionado():
     """
 
     estacionamiento = get_estacionamiento()
-    registros = get_registros()
+    estacionados = get_estacionados()
 
-    patente = formatear_patente(get_user_input("Ingrese la patente: ", str.upper))
-    
+    patente = pedir_patente_formateada()
+
     if patente in estacionados:
         print("Ya ingresado.")
-    else:
-        fecha = datetime.now().strftime("%d/%m/%Y")
-        hora = datetime.now().strftime("%H:%M")
-        tipo = get_user_input("Ingrese tipo: ", str.upper)
-        dni = get_user_input("Ingrese dni: ")
+        return
 
-        salio = False
-        while patente not in estacionados:
-            add_estacionados(patente)
-            add_registros({
-                "fecha": fecha,
-                "hora": hora,
-                "patente": patente,
-                "tipo_vehiculo": tipo,
-                "cliente_dni": dni,
-                "salio": salio,
-            })
-            for i in range(len(estacionamiento)):
-                for j in range(len(estacionamiento[i])):
-                    if estacionamiento[i][j] == 'Vacio':
-                        add_estacionamiento(i,j,patente)
-                        print()
-                        print(f"Vehículo {patente} ingresado en la cochera ({i+1},{j+1})")
-                        print()
-                        for fila in estacionamiento:
-                            for lugar in fila:
-                                print(lugar, end=" ")
-                            print()
-                        return
+    now = datetime.now()
+    fecha = now.strftime("%d/%m/%Y")
+    hora = now.strftime("%H:%M")
+    tipo = get_user_input("Ingrese tipo: ", str.upper)
+    dni = get_user_input("Ingrese DNI: ")
+
+    i, j = buscar_cochera_vacia(estacionamiento)
+    if i is None:
         print("Estacionamiento lleno.")
+    else:
+        add_estacionados(patente)
+        add_registros({
+            "fecha": fecha,
+            "hora": hora,
+            "patente": patente,
+            "tipo_vehiculo": tipo,
+            "cliente_dni": dni,
+            "salio": False,
+            "lugar": (i + 1, j + 1)
+        })
+        add_estacionamiento(i, j, patente)
+        print(f"\nVehículo {patente} ingresado en la cochera ({i + 1},{j + 1})")
 
-    for fila in estacionamiento:
-        for lugar in fila:
-            print(lugar, end=" ")
-        print()
+    mostrar_estacionamiento(estacionamiento)
 
 
-def egresarVehiculo():
+
+def egresar_vehiculo():
     """
     Registra la salida de un vehículo del estacionamiento.
 
@@ -77,51 +69,47 @@ def egresarVehiculo():
 
     Si el DNI no coincide, el egreso no se permite.
     """
-
     estacionamiento = get_estacionamiento()
+    estacionados = get_estacionados()
     registros = get_registros()
 
-    patenteEgresada = formatear_patente(get_user_input("Ingrese la patente del vehiculo a egresar: ", str.upper))
-    
-    if patenteEgresada not in estacionados:
-        print("El vehiculo no esta estacionado.")
-    else:
-        fecha = datetime.now().strftime("%d/%m/%Y")
-        hora = datetime.now().strftime("%H:%M")
-        dni = get_user_input("Ingrese el dni: ")
+    patente = pedir_patente_formateada()
 
-        while patenteEgresada in estacionados:
-            estacionados.remove(patenteEgresada)
-            for registro in registros:
-                if registro["patente"] == patenteEgresada and registro["salio"] == False:
-                    if registro["cliente_dni"] == dni:
-                        nuevo_registro = {
-                        "fecha": fecha,
-                        "hora": hora,
-                        "patente": patenteEgresada,
-                        "tipo_vehiculo": registro["tipo_vehiculo"],  
-                        "cliente_dni": dni,
-                        "salio": True
-                        }
-                        add_registros(nuevo_registro)
-                    else:
-                        print("El dni no coincide.")
-                        return
+    if patente not in estacionados:
+        print("El vehículo no está estacionado.")
+        return
 
-            for i in range(len(estacionamiento)):
-                for j in range(len(estacionamiento[i])):
-                    if estacionamiento[i][j] == patenteEgresada:
-                        add_estacionamiento(i,j,"Vacio")
-                        print()
-                        print(f"Vehículo {patenteEgresada} salio de la cochera ({i+1},{j+1})")
-                        print()
-                        for fila in estacionamiento:
-                            for lugar in fila:
-                                print(lugar, end=" ")
-                            print()
-                        return
+    dni = get_user_input("Ingrese el DNI: ")
+    now = datetime.now()
+    fecha = now.strftime("%d/%m/%Y")
+    hora = now.strftime("%H:%M")
 
-    for fila in estacionamiento:
-        for lugar in fila:
-            print(lugar, end=" ")
-        print()
+    registro = obtener_registro_activo_por_patente(registros, patente)
+    if not registro:
+        print("No se encontró un registro activo para ese vehículo.")
+        mostrar_estacionamiento(estacionamiento)
+        return
+
+    if registro["cliente_dni"] != dni:
+        print("El DNI no coincide.")
+        mostrar_estacionamiento(estacionamiento)
+        return
+
+    add_registros({
+        "fecha": fecha,
+        "hora": hora,
+        "patente": patente,
+        "tipo_vehiculo": registro["tipo_vehiculo"],
+        "cliente_dni": dni,
+        "salio": True,
+        "lugar": registro["lugar"],
+    })
+
+    delete_estacionado(patente)
+
+    i, j = registro["lugar"]
+
+    add_estacionamiento(i - 1, j - 1, "Vacio")
+    print(f"\nVehículo {patente} salió de la cochera ({i},{j})")
+
+    mostrar_estacionamiento(estacionamiento)

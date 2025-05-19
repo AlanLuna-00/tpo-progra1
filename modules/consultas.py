@@ -1,6 +1,6 @@
 from utils.file_manager_mock import get_registros, get_estacionamiento
 from modules.ordenamientos import selection_sort
-from utils.utils import get_user_input, formatear_patente
+from utils.utils import get_user_input, formatear_patente, mostrar_estacionamiento, pedir_patente_formateada
 
 
 def mostrar_registro_por_patente():
@@ -13,7 +13,11 @@ def mostrar_registro_por_patente():
         4) Si hay registros, imprime los datos, sino, avisa que no hay información disponible.
     """
     
-    patente = get_user_input("Ingrese la patente del vehiculo a buscar: ", str.upper)
+    try:
+        patente = pedir_patente_formateada()
+    except TypeError:
+        print("Patente incorrecta.")
+        return
 
     registros = get_registros()
     encontrados = []
@@ -95,29 +99,30 @@ def filtrar_por_tipo_vehiculo():
         3) Busca coincidencias y las imprime.
     """
     registros = get_registros()
-    
+
     tipos_disponibles = set(registro["tipo_vehiculo"] for registro in registros)
+
     if not tipos_disponibles:
         print("No hay vehiculos cargados aun.")
         return
 
     print("\nTipos de vehículos disponibles:", ", ".join(tipos_disponibles))
-    tipo_buscado = get_user_input("Ingrese el tipo de vehículo a filtrar: ", str.upper, tipos_disponibles)
-    
-    encontrados = [
-        registro for registro in registros 
-        if registro["tipo_vehiculo"] == tipo_buscado
-    ]
-    
+
+    tipo_buscado = get_user_input(
+        "Ingrese el tipo de vehículo a filtrar: ", str.upper, tipos_disponibles
+    )
+
+    encontrados = list(filter(lambda r: r["tipo_vehiculo"] == tipo_buscado, registros))
+
     if not encontrados:
         print(f"No hay registros para el tipo '{tipo_buscado}'.")
         return
-    
+
     print(f"\n→ Registros de tipo '{tipo_buscado}':")
     for registro in encontrados:
         for campo, valor in registro.items():
-            print(f"{campo.capitalize()}: {valor}")
-        print("------")
+            print(f"{campo.replace('_', ' ').capitalize()}: {valor}")
+        print("-" * 40)
 
 
 def mostrarPorDni():
@@ -129,34 +134,21 @@ def mostrarPorDni():
         3) Busca coincidencias y muestra los datos del cliente.
     """
     registros = get_registros()
+    dni_buscado = get_user_input("Ingresa el DNI para filtrar: ")
 
-    encontrados = []
-    dniBuscado = get_user_input("Ingresa el dni para filtrar: ")
+    encontrados = list(filter(lambda r: r['cliente_dni'] == dni_buscado, registros))
 
-    for registro in registros:
-        if registro['cliente_dni'] == dniBuscado:
-            encontrados.append(registro)
-
-    if len(encontrados) == 0:
-        print()
-        print("No se encontraron registros para el DNI ingresado.")
+    if not encontrados:
+        print("\nNo se encontraron registros para el DNI ingresado.")
         return
 
-    for j in range(len(encontrados)):
+    for registro in encontrados:
         print()
-        for k in encontrados[j]:
-            print(f"{k.capitalize()}: {encontrados[0][k]}")
+        for clave, valor in registro.items():
+            print(f"{clave.replace('_', ' ').capitalize()}: {valor}")
 
 def ver_estacionamiento():
-
-
-    estacionamiento = get_estacionamiento()
-    
-    print("\nDisposición actual del estacionamiento:")
-    for i, fila in enumerate(estacionamiento):
-        for j, lugar in enumerate(fila):
-            print(f"[{lugar}]", end=" ")
-        print()
+    mostrar_estacionamiento(get_estacionamiento())
 
 def mostrar_estadisticas():
     estacionamiento = get_estacionamiento()

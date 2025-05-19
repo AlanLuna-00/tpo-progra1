@@ -1,6 +1,6 @@
 from modules.consultas import mostrar_registro_por_patente, mostrar_ranking_tipos_vehiculo, mostrarTodosLosRegistros, \
     filtrar_por_tipo_vehiculo, mostrarPorDni, ver_estacionamiento, mostrar_estadisticas
-from modules.registros import agregrarEstacionado ,egresarVehiculo
+from modules.registros import agregar_estacionado, egresar_vehiculo
 def mostrar_menu():
     """
     Muestra un menú interactivo con opciones para acceder a distintas funciones de la aplicación.
@@ -57,10 +57,10 @@ def main():
                 mostrar_estadisticas()
             case 7:
                 print("→ Marcar salida de un vehiculo")
-                egresarVehiculo()
+                egresar_vehiculo()
             case 8:
                 print("→ Registrar ingreso de un vehiculo")
-                agregrarEstacionado()
+                agregar_estacionado()
             case 9:
                 print("→ Vista del estacionamiento")
                 ver_estacionamiento()
