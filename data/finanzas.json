@@ -1,0 +1,66 @@
+[
+  {
+    "tipo": "INGRESO",
+    "motivo": "Cobro por estacionamiento",
+    "monto": 250,
+    "cliente_dni": "46197580",
+    "fecha": "02/06/2025",
+    "hora": "20:32"
+  },
+  {
+    "tipo": "INGRESO",
+    "motivo": "Cobro por estacionamiento",
+    "monto": 250,
+    "cliente_dni": "46197580",
+    "fecha": "02/06/2025",
+    "hora": "20:33"
+  },
+  {
+    "tipo": "INGRESO",
+    "motivo": "Cobro por estacionamiento",
+    "monto": 250,
+    "cliente_dni": "123",
+    "fecha": "02/06/2025",
+    "hora": "20:34"
+  },
+  {
+    "tipo": "EGRESO",
+    "motivo": "pepe",
+    "monto": 3.0,
+    "fecha": "02/06/2025",
+    "hora": "20:35",
+    "cliente_dni": null
+  },
+  {
+    "tipo": "INGRESO",
+    "motivo": "Apostamos al rojo",
+    "monto": 1000.0,
+    "fecha": "02/06/2025",
+    "hora": "20:39",
+    "cliente_dni": null
+  },
+  {
+    "tipo": "EGRESO",
+    "motivo": "ndajsnd",
+    "monto": 10.0,
+    "fecha": "02/06/2025",
+    "hora": "21:05",
+    "cliente_dni": 123
+  },
+  {
+    "tipo": "EGRESO",
+    "motivo": "pemsdnnsd",
+    "monto": 10.0,
+    "fecha": "02/06/2025",
+    "hora": "21:07",
+    "cliente_dni": "123"
+  },
+  {
+    "tipo": "EGRESO",
+    "motivo": "daskmd",
+    "monto": 10.0,
+    "fecha": "02/06/2025",
+    "hora": "21:08",
+    "cliente_dni": "12345678"
+  }
+]

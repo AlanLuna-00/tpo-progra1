@@ -1,6 +1,9 @@
-from utils.file_manager_mock import get_registros, get_estacionamiento
+from utils.file_manager import get_registros, get_estacionamiento, get_finanzas
 from modules.ordenamientos import selection_sort
-from utils.utils import get_user_input, formatear_patente, mostrar_estacionamiento, pedir_patente_formateada
+from utils.utils import get_user_input, mostrar_estacionamiento, pedir_patente_formateada, \
+    formatear_registro_estacionamiento, validate_dni
+from functools import reduce
+
 
 
 def mostrar_registro_por_patente():
@@ -12,7 +15,6 @@ def mostrar_registro_por_patente():
         3) Compara las patentes con lo ingresado y guarda coincidencias en encontrados[].
         4) Si hay registros, imprime los datos, sino, avisa que no hay información disponible.
     """
-    
     try:
         patente = pedir_patente_formateada()
     except TypeError:
@@ -20,22 +22,14 @@ def mostrar_registro_por_patente():
         return
 
     registros = get_registros()
-    encontrados = []
+    encontrados = list(filter(lambda r: r['patente'].lower() == patente.lower(), registros))
 
-    for registro in registros:
-        if registro['patente'].lower() == patente.lower():
-            encontrados.append(registro)
-
-    if len(encontrados) == 0:
-        print()
-        print("No se encontraron registros para la patente ingresada.")
+    if not encontrados:
+        print("\nNo se encontraron registros para la patente ingresada.")
         return
-    print()
-    for registro in encontrados:
-        for campo, valor in registro.items():
-            print(f"{campo.capitalize()}: {valor}")
-        print("------")
 
+    for bloque in map(formatear_registro_estacionamiento, registros):
+        print(bloque)
 
 def mostrar_ranking_tipos_vehiculo():
     """
@@ -81,14 +75,14 @@ def mostrarTodosLosRegistros():
         2) Recorre los registros y los imprime en pantalla.
     """
     print()
-    db = get_registros()
-    encontrados = list(db)
+    registros = get_registros()
 
-    for registro in encontrados:
-        for campo in registro:
-            print(f"{campo.capitalize()}: {registro[campo]}")
-        print()
+    if not registros:
+        print("No hay registros disponibles.")
+        return
 
+    for bloque in map(formatear_registro_estacionamiento, registros):
+        print(bloque)
 
 def filtrar_por_tipo_vehiculo():
     """
@@ -134,7 +128,7 @@ def mostrarPorDni():
         3) Busca coincidencias y muestra los datos del cliente.
     """
     registros = get_registros()
-    dni_buscado = get_user_input("Ingresa el DNI para filtrar: ")
+    dni_buscado = get_user_input("Ingrese el DNI del cliente: ", validator=validate_dni)
 
     encontrados = list(filter(lambda r: r['cliente_dni'] == dni_buscado, registros))
 
@@ -159,3 +153,38 @@ def mostrar_estadisticas():
     porcentaje_ocupacion = (total_vehiculos / total_lugares) * 100 if total_lugares > 0 else 0
     print(f"\nTotal de vehículos estacionados: {total_vehiculos}")
     print(f"Porcentaje de ocupación: {porcentaje_ocupacion:.2f}%")
+
+def mostrar_estado_caja():
+    finanzas = get_finanzas()
+
+    ingresos = list(filter(lambda f: f["tipo"] == "INGRESO", finanzas))
+    egresos = list(filter(lambda f: f["tipo"] == "EGRESO", finanzas))
+
+    total_ingresos = reduce(lambda acc, f: acc + f["monto"], ingresos, 0)
+    total_egresos = reduce(lambda acc, f: acc + f["monto"], egresos, 0)
+    neto = total_ingresos - total_egresos
+
+    print(f"\nTotal Ingresado: ${total_ingresos}")
+    print(f"Total Egresado: ${total_egresos}")
+    print(f"Estado de caja: ${neto}")
+
+def mostrar_gastos_por_cliente():
+    dni = get_user_input("Ingrese el DNI del cliente: ", validator=validate_dni)
+    finanzas = get_finanzas()
+
+    gastos_cliente = list(filter(lambda f: f.get("cliente_dni") == dni, finanzas))
+
+    if not gastos_cliente:
+        print(f"No hay gastos registrados para el cliente DNI: {dni}")
+        return
+
+    total = reduce(lambda acc, f: acc + f["monto"], gastos_cliente, 0)
+
+    print(f"\nGastos del cliente {dni}: ${total}")
+
+    salidas = map(
+        lambda f: f"- {f['fecha']} {f['hora']}: ${f['monto']} ({f['motivo']})",
+        gastos_cliente
+    )
+
+    print("\n".join(salidas))
