@@ -102,5 +102,31 @@
       1,
       3
     ]
+  },
+  {
+    "fecha": "03/06/2025",
+    "hora_entrada": "15:56",
+    "hora_salida": null,
+    "patente": "AA-123-DD",
+    "tipo_vehiculo": "AUTO",
+    "cliente_dni": "45912018",
+    "salio": false,
+    "lugar": [
+      1,
+      3
+    ]
+  },
+  {
+    "fecha": "03/06/2025",
+    "hora_entrada": "15:56",
+    "hora_salida": "15:57",
+    "patente": "AA-123-DD",
+    "tipo_vehiculo": "AUTO",
+    "cliente_dni": "45912018",
+    "salio": true,
+    "lugar": [
+      1,
+      3
+    ]
   }
 ]

@@ -62,5 +62,13 @@
     "fecha": "02/06/2025",
     "hora": "21:08",
     "cliente_dni": "12345678"
+  },
+  {
+    "tipo": "INGRESO",
+    "motivo": "Cobro por estacionamiento",
+    "monto": 250,
+    "cliente_dni": "45912018",
+    "fecha": "03/06/2025",
+    "hora": "15:57"
   }
 ]
