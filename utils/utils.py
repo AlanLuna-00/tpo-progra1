@@ -107,7 +107,7 @@ def calcular_precio(minutos):
 
 def formatear_registro_estacionamiento(r):
     print("\n------\n")
-    hora_salida = 'No salio aun' if r['salio'] else r.get('hora_salida', '-')
+    hora_salida = 'No salio aun' if not r['salio'] else r.get('hora_salida', '-')
     lugar = r.get("lugar")
     lugar_str = f"Fila {lugar[0]} - Columna {lugar[1]}" if isinstance(lugar, (list, tuple)) else "-"
 
