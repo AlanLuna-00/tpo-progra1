@@ -39,7 +39,7 @@ def formatear_patente(patente):
 def pedir_patente_formateada():
     while True:
         try:
-            entrada = get_user_input("Ingrese la patente del vehículo a buscar: ", str.upper)
+            entrada = get_user_input("Ingrese la patente del vehículo: ", str.upper)
             return formatear_patente(entrada)
         except TypeError as e:
             print(str(e))
